@@ -1,5 +1,18 @@
 #!/bin/bash
 
-directory=$1
+source=$1
 
-echo $directory 
+checkSource (){
+   if ! [ -e $1 ]; then
+      echo "File/Directory does not exist."
+   fi
+}
+
+checkDestination (){
+    aws s3 ls s3://oladotun-first-bucket \
+    --recursive | grep -w "file1.txt"
+}
+
+checkDestination $source
+
+
