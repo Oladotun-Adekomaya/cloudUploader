@@ -11,20 +11,28 @@ checkSource (){
 
 checkSource
 # Function to check if the file/directory to be uploaded to the cloud already exists
-checkDestination (){
-    aws s3 ls s3://oladotun-first-bucket \
-    --recursive | grep -w "file1.txt"
-}
 
 
 getFileNameFromSourcePath (){
    IFS="/"
    read -ra sourcePathArr <<< "$source"
-   arrLength=${#sourcePathArr[@]}
-   n=$(($arrLength-1))
-   fileName=${sourcePathArr[$n]}
-   echo {$fileName}
+   local arrLength=${#sourcePathArr[@]}
+   local n=$(($arrLength-1))
+   local fileName=${sourcePathArr[$n]}
+   echo $fileName
 
 }
 
+
+
+# Function to check if the file/directory to be uploaded to the cloud already exists
+checkDestination (){
+    local fileName=$(getFileNameFromSourcePath)
+    aws s3 ls s3://oladotun-first-bucket/testFolder/ \
+    --recursive | grep -w $fileName
+}
+
 getFileNameFromSourcePath
+checkDestination
+if 
+
