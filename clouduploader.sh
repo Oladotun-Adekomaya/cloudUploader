@@ -32,7 +32,10 @@ checkDestination (){
     --recursive | grep -w $fileName
 }
 
-getFileNameFromSourcePath
-checkDestination
-if 
+if [ $? -ne  0 ]; then
+  echo "good boy"
+fi
 
+upload (){
+   aws s3 cp $source s3://oladotun-first-bucket/testFolder/
+}
