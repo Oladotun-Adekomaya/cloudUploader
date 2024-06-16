@@ -27,12 +27,9 @@ getFileNameFromSourcePath (){
 checkDestination (){
     local fileName=$(getFileNameFromSourcePath)
     aws s3 ls s3://oladotun-first-bucket/testFolder/ \
-    --recursive | grep -w $fileName
+    --recursive | grep -w "$fileName"
 }
 
-if [ $? -ne  0 ]; then
-  echo "good boy"
-fi
 
 # Function to upload the file/directory to the cloud
 upload (){
@@ -40,16 +37,20 @@ upload (){
 }
 
 
-
 # Main Code
 
 checkSource
 
 if [ $? -ne 0 ];then
-   echo "$source does not exist. Please check the path to make sure it's the correct path."
+   echo "$source does not exist. Please check the path to make sure it's a correct path."
    exit 1
 fi
 
+echo "Please wait, checking the cloud to see if a file/folder like this already exists...\n"
 checkDestination
 
-echo $?
+if [ $? -ne 0 ];then
+   echo "A file/folder like this already exists. "
+   exit 1
+fi
+
