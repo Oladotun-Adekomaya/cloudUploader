@@ -4,13 +4,11 @@ source=$1
 
 # Function to check if the file/directory to be uploaded is not available
 checkSource (){
-   if ! [ -e $source ]; then
-      echo "File/Directory does not exist."
-   fi
+   #if ! [ -e $source ]; then
+      #echo "File/Directory does not exist."
+   #fi
+   [ -e $source ]
 }
-
-checkSource
-# Function to check if the file/directory to be uploaded to the cloud already exists
 
 
 getFileNameFromSourcePath (){
@@ -36,6 +34,22 @@ if [ $? -ne  0 ]; then
   echo "good boy"
 fi
 
+# Function to upload the file/directory to the cloud
 upload (){
    aws s3 cp $source s3://oladotun-first-bucket/testFolder/
 }
+
+
+
+# Main Code
+
+checkSource
+
+if [ $? -ne 0 ];then
+   echo "$source does not exist. Please check the path to make sure it's the correct path."
+   exit 1
+fi
+
+checkDestination
+
+echo $?
